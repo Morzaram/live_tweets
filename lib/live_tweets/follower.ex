@@ -5,7 +5,6 @@ defmodule LiveTweets.Follower do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "followers" do
-
     field :follower_id, :binary_id
     field :following_id, :binary_id
 
@@ -15,7 +14,8 @@ defmodule LiveTweets.Follower do
   @doc false
   def changeset(follower, attrs) do
     follower
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:follower_id, :following_id])
+    |> validate_required([:follower_id, :following_id])
+    |> unique_constraint([:follower_id, :following_id])
   end
 end
