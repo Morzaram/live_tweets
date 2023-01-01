@@ -39,22 +39,20 @@ defmodule LiveTweets.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :profile_name, :handle])
+    |> validate_required([:profile_name, :handle])
     |> validate_email(opts)
     |> validate_password(opts)
-    |> validate_profile_name
     |> validate_handle
   end
 
-  defp validate_profile_name(changeset) do
-    # TODO implement
-    # Ensure at least on character
-  end
-
   defp validate_handle(changeset) do
-    # TODO implement
-    # Ensure no space
-    # Ensure uniqueness
+    validate_change(changeset, :handle, fn field, value ->
+      cond do
+        length(String.split(value, [" "])) == 1 -> []
+        true -> [{field, "Handle must be without spaces"}]
+      end
+    end)
   end
 
   defp validate_email(changeset, opts) do

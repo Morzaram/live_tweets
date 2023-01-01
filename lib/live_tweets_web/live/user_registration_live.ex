@@ -6,7 +6,7 @@ defmodule LiveTweetsWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="max-w-sm mx-auto">
       <.header class="text-center">
         Register for an account
         <:subtitle>
@@ -21,12 +21,12 @@ defmodule LiveTweetsWeb.UserRegistrationLive do
       <.simple_form
         :let={f}
         id="registration_form"
-        for={@changeset}
         phx-submit="save"
         phx-change="validate"
         phx-trigger-action={@trigger_submit}
         action={~p"/users/log_in?_action=registered"}
         method="post"
+        for={@changeset}
         as={:user}
       >
         <.error :if={@changeset.action == :insert}>
@@ -35,6 +35,8 @@ defmodule LiveTweetsWeb.UserRegistrationLive do
 
         <.input field={{f, :email}} type="email" label="Email" required />
         <.input field={{f, :password}} type="password" label="Password" required />
+        <.input field={{f, :profile_name}} type="text" label="Profile Name" required />
+        <.input field={{f, :handle}} type="text" label="Handle" required />
 
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>

@@ -48,13 +48,6 @@ defmodule LiveTweetsWeb.Router do
   ## Authentication routes
 
   scope "/", LiveTweetsWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-  end
-
-  scope "/", LiveTweetsWeb do
     pipe_through [:browser, :require_authenticated_user]
   end
 
